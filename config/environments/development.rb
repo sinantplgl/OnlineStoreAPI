@@ -44,6 +44,9 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
+  #Secret Key
+  #config.secret_key_base = ENV['SECRET_KEY_BASE']
+
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
