@@ -1,2 +1,2 @@
-class ProductManager < User
+class ProductManager < ApplicationRecord
 end
