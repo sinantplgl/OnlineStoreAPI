@@ -1,0 +1,2 @@
+class SalesManager < User
+end
