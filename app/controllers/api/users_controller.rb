@@ -43,7 +43,7 @@ class Api::UsersController < ApplicationController
 			else
 				User.last.destroy
 				render json:	{
-									status: 500
+									status: 500,
 									message: "Something happened..."
 								}
 			end
