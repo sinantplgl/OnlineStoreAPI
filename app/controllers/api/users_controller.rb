@@ -1,11 +1,5 @@
 class Api::UsersController < ApplicationController
 	skip_before_action :authenticate_request, :only => [:create]
-	def index
-		@users = User.all
-
-		render json: @users, status: :ok
-	end
-
 	def show
 		@user = User.find(params[:id])
 		@customer = Customer.find(@user.id)
@@ -51,15 +45,6 @@ class Api::UsersController < ApplicationController
 								status: 400,
 								message: "Home Address and Tax ID cannot be empty!"
 							}
-		end
-	end
-
-	def destroy
-		@user = User.where(id: params[:id].first)
-		if @user.destroy
-			head(:ok)
-		else
-			head(:unprocessable_entry)
 		end
 	end
 
