@@ -27,19 +27,26 @@ class Api::UsersController < ApplicationController
 			@customer = Customer.new(id: User.last.id,
 							home_address: user_params[:home_address],
 							tax_id: user_params[:tax_id])
-			@customer.save
-			render json:	{
-								status: 200,
-								message: "New account created...",
-								user:
-								{	
-									id: @user.id, 
-									name: @user.name,
-									email: @user.email, 
-									home_address: @customer.home_address, 
-									tax_id: @customer.tax_id
+			if @customer.save
+				render json:	{
+									status: 200,
+									message: "New account created...",
+									user:
+									{	
+										id: @user.id, 
+										name: @user.name,
+										email: @user.email, 
+										home_address: @customer.home_address, 
+										tax_id: @customer.tax_id
+									}
 								}
-							}
+			else
+				User.last.destroy
+				render json:	{
+									status: 500
+									message: "Something happened..."
+								}
+			end
 		else
 			render json:	{
 								status: 400,
