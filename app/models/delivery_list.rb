@@ -1,0 +1,2 @@
+class DeliveryList < ApplicationRecord
+end

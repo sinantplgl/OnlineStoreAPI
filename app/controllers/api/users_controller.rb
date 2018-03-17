@@ -1,12 +1,11 @@
 class Api::UsersController < ApplicationController
 	skip_before_action :authenticate_request, :only => [:create]
 	def show
-		@user = User.find(params[:id])
-		@customer = Customer.find(@user.id)
+		@customer = Customer.find(@current_user.id)
 		render json:	{	
-							id: @user.id, 
-							name: @user.name,
-							email: @user.email, 
+							id: @current_user.id, 
+							name: @current_user.name,
+							email: @current_user.email, 
 							home_address: @customer.home_address, 
 							tax_id: @customer.tax_id
 						}, status: :ok
