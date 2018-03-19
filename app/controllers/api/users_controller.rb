@@ -1,7 +1,7 @@
 class Api::UsersController < ApplicationController
 	skip_before_action :authenticate_request, :only => [:create]
 	def show
-		@customer = Customer.find(@current_user.id)
+		@customer = Customer.find_by_user_id(@current_user.id)
 		render json:	{	
 							id: @current_user.id, 
 							name: @current_user.name,
@@ -23,7 +23,7 @@ class Api::UsersController < ApplicationController
 							}
 		elsif user_params[:home_address] && user_params[:tax_id]
 			@user.save
-			@customer = Customer.new(id: User.last.id,
+			@customer = Customer.new(user_id: User.last.id,
 							home_address: user_params[:home_address],
 							tax_id: user_params[:tax_id])
 			if @customer.save

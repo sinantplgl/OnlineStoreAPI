@@ -8,7 +8,7 @@ class Api::ProductsController < ApplicationController
 	end
 
 	def create
-		@manager = ProductManager.where(id: @current_user.id).first
+		@manager = ProductManager.where(user_id: @current_user.id).first
 		if @manager
 			@product = Product.new(product_params)
 			@product.save
@@ -29,7 +29,7 @@ class Api::ProductsController < ApplicationController
 	end
 
 	def destroy
-		@manager = ProductManager.where(id: @current_user.id).first
+		@manager = ProductManager.where(user_id: @current_user.id).first
 		if @manager
 			@product = Product.where(id: params[:id]).first
 			if @product
@@ -45,7 +45,7 @@ class Api::ProductsController < ApplicationController
 	end
 	
 	def setprice
-		@manager = SalesManager.where(id: @current_user.id).first
+		@manager = SalesManager.where(user_id: @current_user.id).first
 		if @manager
 			@product = Product.where(id: params[:id]).first
 
@@ -62,7 +62,7 @@ class Api::ProductsController < ApplicationController
 	end
 
 	def setquantity
-		@manager = ProductManager.where(id: @current_user.id).first
+		@manager = ProductManager.where(user_id: @current_user.id).first
 		if @manager
 			@product = Product.where(id: params[:id]).first
 

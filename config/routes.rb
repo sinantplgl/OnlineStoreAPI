@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   	patch	'products/setprice/:id', to: 'products#setprice'
   	patch	'products/setquantity/:id', to: 'products#setquantity'
 
+    resources :delivery_lists, only: [:create, :update, :destroy]
+
   	post	'authenticate', to: 'authentication#authenticate'
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
