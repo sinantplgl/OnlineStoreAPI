@@ -5,7 +5,7 @@ class Api::OrdersController < ApplicationController
 	end
 
 	def show
-		@order = Order.where(customer_id: @current_user.id, invoice: nil).first
+		@order = Order.where(customer_id: @current_user.id, invoice_id: nil).first
 
 		if @order
 			render json: @order
@@ -15,7 +15,7 @@ class Api::OrdersController < ApplicationController
 	end
 
 	def update_price
-		@order = Order.where(customer_id: @current_user, invoice: nil).first
+		@order = Order.where(customer_id: @current_user, invoice_id: nil).first
 
 		if @order
 			@order.update(total_price: order_params[:total_price])
@@ -28,7 +28,7 @@ class Api::OrdersController < ApplicationController
 	end
 
 	def update_address
-		@order = Order.where(customer_id: @current_user, invoice: nil).first
+		@order = Order.where(customer_id: @current_user, invoice_id: nil).first
 
 		if @order
 			@order.update(delivery_address: order_params[:delivery_address])
