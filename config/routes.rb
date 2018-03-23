@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   	get    'users/show', to: 'users#show'
   	patch  'user/update', to: 'users#update'
   	
+    resources :categories, only: [:index]
+
   	resources :products, only: [:index, :create, :show, :destroy]
   	patch  'products/setprice/:id', to: 'products#setprice'
   	patch  'products/setquantity/:id', to: 'products#setquantity'
