@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   namespace :api do
+    
     # User info
   	post   'users', to: 'users#create'
   	get    'users/show', to: 'users#show'
@@ -22,6 +23,9 @@ Rails.application.routes.draw do
     get   'orders/show', to: 'orders#show'
     patch 'orders/update_price', to: 'ordres#update_price'
     patch 'orders/update_address', to: 'orders#update_address'
+
+    # Payment
+    get   'orders/payment', to: 'orders#payment'
 
   	post	'authenticate', to: 'authentication#authenticate'
   end
