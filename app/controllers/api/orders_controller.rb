@@ -39,6 +39,17 @@ class Api::OrdersController < ApplicationController
 		end
 	end
 
+	def payment
+		# find last order
+		@order = Order.where(customer_id: @current_user.id, invoice_id: nil).first
+
+		@order.invoice = Invoice.new(idate: Time.now)
+
+		if @order
+			render json: @order.invoice, status: :ok
+		end
+	end
+
 	private
 
 	def order_params
