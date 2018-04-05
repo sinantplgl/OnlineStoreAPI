@@ -7,7 +7,7 @@ class Api::DeliveryListsController < ApplicationController
 			@order = @current_user.customer.orders.last
 		end
 		
-		# add item tothe cart
+		# add item to the cart
 		@cart_item = @order.delivery_lists << DeliveryList.new(delivery_list_params)
 		# update total price
 		total_price = 0
@@ -24,7 +24,7 @@ class Api::DeliveryListsController < ApplicationController
 		@cart_item = DeliveryList.where(id: params[:id]).first
 		if @cart_item
 			# check if item is belongs to current user
-			if Order.find(@cart_item.order_id).customer_id == @current_user.id
+			if @cart_item.order.customer_id == @current_user.id
 				@cart_item.update(quantity: delivery_list_params[:quantity])
 				render json: @cart_item, status: :ok
 			else
@@ -40,7 +40,7 @@ class Api::DeliveryListsController < ApplicationController
 		@cart_item = DeliveryList.where(id: params[:id]).first
 		if @cart_item
 			# check if item is belongs to current user
-			if Order.find(@cart_item.order_id).customer_id == @current_user.id
+			if @cart_item.order.customer_id == @current_user.id
 				@cart_item.destroy
 				render json: { 'message':"Item deleted from the cart..." }, status: :ok
 			else
