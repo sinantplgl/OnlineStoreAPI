@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   	
     # Products
     resources :categories, only: [:index]
+    get 'category/:id', to: 'categories#products'
   	
     resources :products, only: [:index, :create, :show, :destroy]
   	patch  'products/setprice/:id', to: 'products#setprice'
