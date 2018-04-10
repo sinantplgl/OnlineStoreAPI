@@ -18,9 +18,18 @@ class Api::ProductsController < ApplicationController
 	end
 # => ONLY THE PRODUCT MANAGER ADD/DELETE PRODUCT OR UPDATE STOCK INFORMATION
 	def create
-		@product = Product.new(product_params.except(:price, :discount))
-		@product.save
-
+		@product = Product.new(product_params.except(:price, :discount, :categories))
+		
+		begin
+			product_params[:categories].each do |name|
+				@product.categories << Category.find_by_name(name)
+			end
+			
+			@product.save
+		rescue => ex
+			render json: {message: ex.message}
+		end
+			
 		render json: @product, status: :ok
 	end
 
@@ -77,7 +86,7 @@ class Api::ProductsController < ApplicationController
 		params.require(:product).permit(:name, :description,
 										:dist_info, :warranty_status,
 										:model_number, :stock_quantity,
-										:price, :discount, :categories)
+										:price, :discount, categories: [])
 	end
 
 	def check_product_manager
