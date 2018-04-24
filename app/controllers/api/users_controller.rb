@@ -20,7 +20,7 @@ class Api::UsersController < ApplicationController
 			current_user.update(user_params.only[:password, :password_confirmation])
 			render json: {message: "Password updated..."}
 		rescue => ex
-			render json: {message ex.message}
+			render json: {message: ex.message}
 		end
 	end
 
