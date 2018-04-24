@@ -17,7 +17,7 @@ class Api::UsersController < ApplicationController
 
 	def changepass
 		begin
-			current_user.update(user_params.only[:password, :password_confirmation])
+			current_user.update(user_params.slice(:password, :password_confirmation)
 			render json: {message: "Password updated..."}
 		rescue => ex
 			render json: {message: ex.message}
