@@ -15,6 +15,15 @@ class Api::UsersController < ApplicationController
 		end
 	end
 
+	def changepass
+		begin
+			current_user.update(user_params.only[:password, :password_confirmation])
+			render json: {message: "Password updated..."}
+		rescue => ex
+			render json: {message ex.message}
+		end
+	end
+
 	private
 
 	def user_params

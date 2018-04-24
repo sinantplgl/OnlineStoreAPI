@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   	post   'users', to: 'users#create'
   	get    'user/show', to: 'users#show'
   	patch  'user/update', to: 'users#update'
+    post    'changepass', to: 'user#changepass'
   	
     # Products
     resources :categories, only: [:index]
