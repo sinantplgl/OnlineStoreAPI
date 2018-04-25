@@ -2,7 +2,7 @@ class Api::DeliveryListsController < ApplicationController
 	def create
 		@order = nil
 		if (not @current_user.customer.orders.last) || @current_user.customer.orders.last.invoice
-			@order = @current_user.orders << Order.new(total_price: 0)
+			@order = @current_user.customer.orders << Order.new(total_price: 0)
 		else
 			@order = @current_user.customer.orders.last
 		end
