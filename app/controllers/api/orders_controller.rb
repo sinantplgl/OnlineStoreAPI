@@ -43,10 +43,24 @@ class Api::OrdersController < ApplicationController
 		# find last order
 		@order = Order.where(customer_id: @current_user.id, invoice_id: nil).first
 
-		@order.invoice = Invoice.new(idate: Time.now)
+		#check if available
+		items = []
+		order.delivery_lists.each do |item|
+			if item.product.stock_quantity < item.quantity
+				items << item
+			end
+		end
+		if items.length != 0
+			render json: {message: "Item is not available in stock.", items: items}, status: 409
+		else
+			if @order
+				order.delivery_lists.each do |item|
+					item.product.update(stock_quantity: item.product.stock_quantity - item.quantity)
+				end
+				@order.invoice = Invoice.new(idate: Time.now)
 
-		if @order
-			render json: @order.invoice, status: :ok
+				render json: @order.invoice, status: :ok
+			end
 		end
 	end
 
