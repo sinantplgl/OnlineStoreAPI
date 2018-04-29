@@ -14,19 +14,6 @@ class Api::OrdersController < ApplicationController
 		end
 	end
 
-	def update_price
-		@order = Order.where(customer_id: @current_user, invoice_id: nil).first
-
-		if @order
-			@order.update(total_price: order_params[:total_price])
-
-			render json: @order
-		else
-			render json: {message:"There is nothing to update"}
-		end
-			
-	end
-
 	def update_address
 		@order = Order.where(customer_id: @current_user, invoice_id: nil).first
 
@@ -45,7 +32,7 @@ class Api::OrdersController < ApplicationController
 
 		#check if available
 		items = []
-		order.delivery_lists.each do |item|
+		@order.delivery_lists.each do |item|
 			if item.product.stock_quantity < item.quantity
 				items << item
 			end
@@ -54,10 +41,11 @@ class Api::OrdersController < ApplicationController
 			render json: {message: "Item is not available in stock.", items: items}, status: 409
 		else
 			if @order
-				order.delivery_lists.each do |item|
+				@order.delivery_lists.each do |item|
 					item.product.update(stock_quantity: item.product.stock_quantity - item.quantity)
 				end
 				@order.invoice = Invoice.new(idate: Time.now)
+				@order.update(invoice_id: Invoice.find_by_order_id(@order.id).id)
 
 				render json: @order.invoice, status: :ok
 			end

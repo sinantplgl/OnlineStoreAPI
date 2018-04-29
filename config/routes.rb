@@ -23,7 +23,6 @@ Rails.application.routes.draw do
 
     get   'orders', to: 'orders#index'
     get   'order/show', to: 'orders#show'
-    patch 'order/update_price', to: 'ordres#update_price'
     patch 'order/update_address', to: 'orders#update_address'
 
     # Payment

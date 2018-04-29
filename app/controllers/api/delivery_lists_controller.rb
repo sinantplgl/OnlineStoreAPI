@@ -8,7 +8,7 @@ class Api::DeliveryListsController < ApplicationController
 		end
 		
 		# add item to the cart
-		@cart_item = @order.delivery_lists << DeliveryList.new(delivery_list_params)
+		@cart_items = @order.delivery_lists << DeliveryList.new(delivery_list_params)
 		# update total price
 		total_price = 0
 		@order.delivery_lists.each do |item|
@@ -16,7 +16,7 @@ class Api::DeliveryListsController < ApplicationController
 		end
 		@order.update(total_price: total_price)
 
-		render json: @cart_item, status: :ok
+		render json: {message: "Item added to the shopping cart...", cart_item: @cart_items.last}, status: :ok
 	end
 
 	def update
@@ -26,7 +26,12 @@ class Api::DeliveryListsController < ApplicationController
 			# check if item is belongs to current user
 			if @cart_item.order.customer_id == @current_user.id
 				@cart_item.update(quantity: delivery_list_params[:quantity])
-				render json: @cart_item, status: :ok
+				total_price = 0
+				@cart_item.order.delivery_lists.each do |item|
+					total_price += (item.product.price * (100 - item.product.discount) / 100 * item.quantity)
+				end
+				@cart_item.order.update(total_price: total_price)
+				render json: {message: "Shopping cart updated...", cart_item: @cart_item}, status: :ok
 			else
 				render json: { 'message':"You don't have permission to update this item..."}
 			end
@@ -41,7 +46,15 @@ class Api::DeliveryListsController < ApplicationController
 		if @cart_item
 			# check if item is belongs to current user
 			if @cart_item.order.customer_id == @current_user.id
+				@order = @cart_item.order
 				@cart_item.destroy
+
+				total_price = 0
+				@order.delivery_lists.each do |item|
+					total_price += (item.product.price * (100 - item.product.discount) / 100 * item.quantity)
+				end
+				@order.update(total_price: total_price)
+						
 				render json: { 'message':"Item deleted from the cart..." }, status: :ok
 			else
 				render json: { 'message':"You don't have permission to delete this item..." }
