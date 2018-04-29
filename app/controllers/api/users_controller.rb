@@ -27,7 +27,6 @@ class Api::UsersController < ApplicationController
 	private
 
 	def user_params
-		customer_params = (params[:user] || {})[:customer].keys
-		params.require(:user).permit(:name, :email, :password, :password_confirmation, customer: customer_params)
+		params.require(:user).permit(:name, :email, :password, :password_confirmation, customer: [:home_address, :tax_id])
 	end
 end
