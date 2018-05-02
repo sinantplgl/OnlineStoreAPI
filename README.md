@@ -1,6 +1,6 @@
 ### Online Store Project for CS308 - Software Engineering course
 
-This repository contains API service codes for our course project, [toyzz.store](http://toyzz.store). Currently under development.
+Backend API codes, written in Ruby on Rails, for our course project, [toyzz.store](http://toyzz.store). Currently under development.
 
 
 ##### Project Description
